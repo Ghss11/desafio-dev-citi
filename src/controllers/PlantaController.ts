@@ -75,3 +75,25 @@ export const createPlanta = async (req: Request, res: Response) => {
   }
 
 };
+
+
+export const readPlantaById = async (req: Request, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+
+    if (!Number.isInteger(id) || id <= 0) {
+      return res.status(400).json({ message: 'O id deve ser um número inteiro maior que zero.' });
+    }
+    
+    const planta = await PlantaRepository.findPlantaById(id);
+
+    if (planta === null) {
+      return res.status(404).json({ message: `Não existe planta com o id ${id}.` });
+    }
+
+    return res.status(200).json(planta);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Erro ao buscar planta.' });
+  }
+};
