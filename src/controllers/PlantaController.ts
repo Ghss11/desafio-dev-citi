@@ -84,7 +84,7 @@ export const readPlantaById = async (req: Request, res: Response) => {
     if (!Number.isInteger(id) || id <= 0) {
       return res.status(400).json({ message: 'O id deve ser um número inteiro maior que zero.' });
     }
-    
+
     const planta = await PlantaRepository.findPlantaById(id);
 
     if (planta === null) {
