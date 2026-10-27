@@ -51,12 +51,12 @@ export const createPlanta = async (req: Request, res: Response) => {
   try {
     const { nome, especie, preco, estoque, luminosidade, petFriendly, regaACadaDias } = req.body;
 
-
     const erro = validarPlanta(req.body, false);
 
     if (erro !== null) {
       return res.status(400).json({ message: erro });
     }
+
     const planta = await PlantaRepository.createPlanta({
       nome,
       especie,
@@ -68,14 +68,11 @@ export const createPlanta = async (req: Request, res: Response) => {
     });
 
     return res.status(201).json(planta);
-
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Erro ao cadastrar planta.' });
   }
-
 };
-
 
 export const readPlantaById = async (req: Request, res: Response) => {
   try {

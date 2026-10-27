@@ -10,30 +10,30 @@ datasource db {
 }
 
 model User {
-  id            Int           @id @default(autoincrement())
-  nome          String        
-  conta         Conta
-  documento     String        @unique
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-} 
+  id        Int      @id @default(autoincrement())
+  nome      String
+  conta     Conta
+  documento String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
-enum Conta {    
+enum Conta {
   CPF
-  CNPJ  
-} 
+  CNPJ
+}
 
-model Planta { 
-  id            Int           @id @default(autoincrement())
-  nome          String        
+model Planta {
+  id            Int          @id @default(autoincrement())
+  nome          String
   especie       String
   preco         Int
   estoque       Int
   luminosidade  Luminosidade
-  petFriendly   Boolean 
+  petFriendly   Boolean
   regaACadaDias Int
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 }
 
 enum Luminosidade {
