@@ -35,15 +35,19 @@ const validarPlanta = (dados: any, parcial: boolean): string | null => {
   if (estoque !== undefined && !(Number.isInteger(estoque) && estoque >= 0)) {
     return 'O estoque deve ser um número inteiro maior ou igual a zero.';
   }
+
   if (regaACadaDias !== undefined && !(Number.isInteger(regaACadaDias) && regaACadaDias >= 1)) {
     return 'O campo regaACadaDias deve ser um número inteiro de pelo menos 1.';
   }
+
   if (luminosidade !== undefined && !(Object.values(Luminosidade).includes(luminosidade))) {
     return 'A luminosidade deve ser SOMBRA, MEIA_SOMBRA ou SOL_PLENO.';
   }
+
   if (petFriendly !== undefined && !(typeof petFriendly === 'boolean')) {
     return 'O campo petFriendly deve ser true ou false.';
   }
+
   return null;
 };
 
@@ -207,7 +211,7 @@ export const venderPlanta = async (req: Request, res: Response) => {
       });
     }
 
-        const vendida = await PlantaRepository.venderPlanta(id, quantidade);
+    const vendida = await PlantaRepository.venderPlanta(id, quantidade);
 
     if (vendida === 0) {
       return res.status(400).json({
