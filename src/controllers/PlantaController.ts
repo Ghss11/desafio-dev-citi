@@ -207,7 +207,15 @@ export const venderPlanta = async (req: Request, res: Response) => {
       });
     }
 
-    const plantaAtualizada = await PlantaRepository.venderPlanta(id, quantidade);
+        const vendida = await PlantaRepository.venderPlanta(id, quantidade);
+
+    if (vendida === 0) {
+      return res.status(400).json({
+        message: 'Estoque insuficiente: outra venda foi registrada ao mesmo tempo. Consulte o estoque e tente novamente.',
+      });
+    }
+
+    const plantaAtualizada = await PlantaRepository.findPlantaById(id);
 
     return res.status(200).json(plantaAtualizada);
   } catch (error) {
