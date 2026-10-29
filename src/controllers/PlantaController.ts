@@ -102,7 +102,7 @@ export const deletePlanta = async (req: Request, res: Response) => {
     if (!Number.isInteger(id) || id <= 0) {
       return res.status(400).json({ message: 'O id deve ser um número inteiro maior que zero.' });
     }
-    
+
     const planta = await PlantaRepository.findPlantaById(id);
 
     if (planta === null) {
@@ -166,7 +166,7 @@ export const readAllPlantas = async (req: Request, res: Response) => {
     if (petFriendly !== undefined && petFriendly !== 'true' && petFriendly !== 'false') {
       return res.status(400).json({ message: 'O filtro petFriendly deve ser true ou false.' });
     }
-    
+
     const plantas = await PlantaRepository.findAllPlantas({
       luminosidade: luminosidade as Luminosidade | undefined,
       petFriendly: petFriendly === undefined ? undefined : petFriendly === 'true',
