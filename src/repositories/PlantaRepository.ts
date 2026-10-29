@@ -41,3 +41,9 @@ export const venderPlanta = async (id: number, quantidade: number) => {
         },
     });
 };
+
+export const findPrecoEEstoque = async () => {
+    return await prisma.planta.findMany({
+        select: { preco: true, estoque: true },
+    });
+};
