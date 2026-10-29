@@ -8,7 +8,7 @@ const CAMPOS_OBRIGATORIOS = [
 ];
 
 const validarPlanta = (dados: any, parcial: boolean): string | null => {
-  // 1 - No cadastro, todos os campos são obrigatórios
+  // 1. No cadastro, todos os campos são obrigatórios
   if (!parcial) {
     for (const campo of CAMPOS_OBRIGATORIOS) {
       if (dados[campo] === undefined) {
@@ -131,11 +131,13 @@ export const updatePlanta = async (req: Request, res: Response) => {
     if (planta === null) {
       return res.status(404).json({ message: `Não existe planta com o id ${id}.` });
     }
+
     const erro = validarPlanta(req.body, true);
 
     if (erro !== null) {
       return res.status(400).json({ message: erro });
     }
+
     const { nome, especie, preco, estoque, luminosidade, petFriendly, regaACadaDias } = req.body;
 
     const plantaAtualizada = await PlantaRepository.updatePlanta(id, {
