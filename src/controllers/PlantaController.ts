@@ -163,7 +163,7 @@ export const updatePlanta = async (req: Request, res: Response) => {
 
 export const readAllPlantas = async (req: Request, res: Response) => {
   try {
-    const { luminosidade, petFriendly } = req.query;
+        const { luminosidade, petFriendly, nome, ordem } = req.query;
 
     if (luminosidade !== undefined && !Object.values(Luminosidade).includes(luminosidade as Luminosidade)) {
       return res.status(400).json({ message: 'O filtro luminosidade deve ser SOMBRA, MEIA_SOMBRA ou SOL_PLENO.' });
@@ -173,10 +173,22 @@ export const readAllPlantas = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'O filtro petFriendly deve ser true ou false.' });
     }
 
-    const plantas = await PlantaRepository.findAllPlantas({
-      luminosidade: luminosidade as Luminosidade | undefined,
-      petFriendly: petFriendly === undefined ? undefined : petFriendly === 'true',
-    });
+    if (nome !== undefined && typeof nome !== 'string') {
+      return res.status(400).json({ message: 'O filtro nome deve ser um texto.' });
+    }
+
+    if (ordem !== undefined && ordem !== 'preco' && ordem !== 'nome') {
+      return res.status(400).json({ message: 'O parâmetro ordem deve ser preco ou nome.' });
+    }
+
+        const plantas = await PlantaRepository.findAllPlantas(
+      {
+        luminosidade: luminosidade as Luminosidade | undefined,
+        petFriendly: petFriendly === undefined ? undefined : petFriendly === 'true',
+        nome: nome === undefined ? undefined : { contains: nome, mode: 'insensitive' },
+      },
+      ordem === 'preco' ? { preco: 'asc' } : ordem === 'nome' ? { nome: 'asc' } : { id: 'asc' },
+    );
 
     return res.status(200).json(plantas);
   } catch (error) {
