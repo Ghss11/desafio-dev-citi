@@ -52,3 +52,10 @@ export const findPrecoEEstoque = async () => {
         select: { preco: true, estoque: true },
     });
 };
+
+export const findPlantasEsgotadas = async () => {
+    return await prisma.planta.findMany({
+        where: { estoque: 0 },
+        orderBy: { id: "asc" },
+    });
+};
